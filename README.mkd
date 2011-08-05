@@ -1,0 +1,26 @@
+cluwrap
+=======
+
+A lightweight wrapper around lucene written in clojure.
+
+Usage
+-----
+
+Read the source code of the tests and the demo application.
+
+## License
+
+Copyright (C) 2011 Thomas Schank
+
+Distributed under the GNU AFFERO GENERAL PUBLIC LICENSE Version 3, 19 November 2007
+
+
+### Refs
+
+#### You might be also interested in
+
+* [clucy][]
+* <https://github.com/fmw/clojure-lucene-demo>
+* <https://github.com/marktriggs/mailindex>
+
+[clucy]: https://github.com/weavejester/clucy
