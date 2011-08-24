@@ -1,58 +1,60 @@
-(ns cluwrap.demo.main
-    (:gen-class) 
-    (:require [clargon.core :as cli])
-    (:import 
-      [java.io File] 
-      [org.apache.lucene.index IndexReader] 
-      )
-    (:use 
-      [cluwrap.demo.filehelper] 
-      [cluwrap.core]  
-      ))
+(ns cluwrap.demo.main 
+    (:gen-class)
+    (:require 
+     [cluwrap.demo.analyzer_demo] 
+     [cluwrap.demo.build_dirindex] 
+     [cluwrap.demo.query_index] 
+     [cluwrap.demo.filequery_demo] 
+     [cluwrap.demo.tika_demo] 
+     ))
 
-(defn add_file_to_index [file_info,index]
-      (let [ 
-        doc {
-          :id (:relative_path file_info)
-          :fields [ {:name "content",  :content (slurp (:canonical_path file_info)) } ] 
-          }] 
-        ((:add_doc index) doc)
-      ))
 
+(def commands 
+     { 
+
+     "build-dirindex" { 
+     :desc "build an search index on disk of all files under a given directory"
+     :run (fn [args] (cluwrap.demo.build_dirindex/main args)) 
+     }
+
+     "query-index" { 
+     :desc "query a index"
+     :run (fn [args] (cluwrap.demo.query_index/main args)) 
+     }
+
+
+     "filequery" { 
+     :desc "run a query over all files in a directory, optionally output found tokens"
+     :run (fn [args] (cluwrap.demo.filequery_demo/main args)) 
+     }
+
+     "analyzer" { 
+     :desc "custom analyzer demo"
+     :run (fn [args] (cluwrap.demo.analyzer_demo/main args)) 
+     }
+
+     "tika" { 
+     :desc "tika"
+     :run (fn [args] (cluwrap.demo.tika_demo/main args)) 
+     }
+
+
+     })
+
+(defn help [] 
+      (println "about commands:")       
+      ;; TODO output the command name(key) and desc in a nice way
+      (doseq [command  commands]
+        (println command)))
+ 
 (defn -main [& args]
-  (let [
-        opts (cli/clargon args 
-                          (cli/required ["--dir" "where to look for files to be indexed" ])
-                          (cli/optional ["--regex" "regex to match to be indexed files" :default ".*"]) 
-                          (cli/optional ["--query" "the query"] )
-                          (cli/optional ["--list-tokens"])
-                          )  
-      
-        dir (get_canonical_dir_or_throw (opts :dir))
-        index (create_index {}) ]
 
-    (println opts)
+  (let [ [cmd & more] args] 
 
-    ;; add files
-    (walkdir dir
-      (re-pattern(opts :regex))        
-      (fn [h]
-        (if (:is_file? h) 
-          (add_file_to_index h index)
-          )))
-
-    ((:optimize index))
-
-    (if (opts :list-tokens)
-      (println ((:get_tokens index)))) 
-
-    ;; run query
-    (if (opts :query)
-      ((def results ((index :query) (opts :query) 30 )) 
-       (doseq [result results]
-         (println result))))
-
-    ))
-
-
-
+    (if (commands cmd)
+      (do
+        println (commands cmd)
+        println ( ((commands cmd) :run) (flatten  more) ) 
+        )
+      (help)
+      ))) 

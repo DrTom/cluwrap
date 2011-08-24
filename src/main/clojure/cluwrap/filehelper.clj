@@ -1,4 +1,4 @@
-(ns cluwrap.demo.filehelper
+(ns cluwrap.filehelper
   (:import [java.io File]) 
   (:import [])
   )

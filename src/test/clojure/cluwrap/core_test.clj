@@ -10,7 +10,7 @@
 
 (deftest 
   test-create-indexer
-  (let [index (create_index {})
+  (let [index (create_index_writer {})
         doc1 {:id "doc1"  
               :fields [ 
                         {:name "chars"  :content "The quick brown fox jumps over the lazy dog."} 

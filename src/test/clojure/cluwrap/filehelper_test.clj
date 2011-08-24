@@ -1,6 +1,6 @@
-(ns cluwrap.demo.filehelper_test
+(ns cluwrap.filehelper_test
     (:use 
-      [cluwrap.demo.filehelper]
+      [cluwrap.filehelper]
       [clojure.test] 
       [cljgiven.core] 
       ))
@@ -10,14 +10,14 @@
          (Context "test with existing cononical_dir pwd"
                   (Given [dir (-> "user.dir" ( System/getProperty))])
                   (When result (get_canonical_dir_or_throw dir) )
-                  (Then (= result dir))
+                  (Then (.equalsIgnoreCase result dir)) ; there might be case differences on Windows and MacOS 
                   ) 
 
          (Context ". should resolve cononical to pwd"
                   (Given [ dir "." 
                           pwd (-> "user.dir" ( System/getProperty)) ])
                   (When result (get_canonical_dir_or_throw dir) )
-                  (Then (= result pwd ))) 
+                  (Then (.equalsIgnoreCase result pwd ))) 
 
          (Context "bogus dir must throw"
                   (When  bogus "this surely is not a directory" )

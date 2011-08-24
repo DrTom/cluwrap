@@ -1,18 +1,27 @@
 cluwrap
 =======
 
+
 A lightweight wrapper around lucene written in clojure.
 
 Usage
 -----
 
-Read the source code of the tests and the demo application.
+Read the source code, the tests, and the demo applications.
 
 ## License
 
 Copyright (C) 2011 Thomas Schank
 
 Distributed under the GNU AFFERO GENERAL PUBLIC LICENSE Version 3, 19 November 2007
+
+### Demos
+
+Two examples of invoking the demos:
+
+    time JAVA_OPTS="-Xmx2048m" lein run build-dirindex --dir ~/Bibliothek --index-dir ~/tmp/bib-index/ --regex '(?i).*pdf'
+
+    lein run query-index --index-dir ~/tmp/bib-index/ --query "clojure AND logging"
 
 
 ### Refs
@@ -24,3 +33,5 @@ Distributed under the GNU AFFERO GENERAL PUBLIC LICENSE Version 3, 19 November 2
 * <https://github.com/marktriggs/mailindex>
 
 [clucy]: https://github.com/weavejester/clucy
+
+
