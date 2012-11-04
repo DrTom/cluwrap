@@ -1,5 +1,5 @@
-(ns cluwrap.analysis
-    (:use clojure.contrib.str-utils)
+(ns cluwrap.demo.analysis
+;    (:use clojure.contrib.str-utils)
     (import [java.io File])
     (import 
       [java.io BufferedReader Reader File] 
@@ -46,7 +46,10 @@
                       current_string valid_string_in_buffer ] 
                           (if (first substitutions)
                             (let [ pair (first substitutions)
-                              new_string (re-gsub (first pair) (first (rest pair)) current_string) ] 
+                              ; use replace instead of re-gsub (which is kinda deprecated), not tested yet
+                              ; new_string (re-gsub (first pair) (first (rest pair)) current_string) 
+                              new_string (replace current_string (first pair) (first (rest pair)) )
+                                  ] 
                               (recur (rest substitutions) new_string))
                             current_string
                             ))) 

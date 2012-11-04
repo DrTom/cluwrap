@@ -1,6 +1,8 @@
 *.DS_Store
 *.aux
 *.blg
+*.class
+*.jar
 *.lof
 *.log
 *.sqlite3
@@ -15,7 +17,10 @@
 .DS_Store
 .lein-deps-sum
 .lein-failures
-/classes/
-/lib/
+.lein-plugins
+/checkouts
+/classes
+/lib
+/target
 core
 pom.xml

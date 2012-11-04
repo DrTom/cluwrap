@@ -1,6 +1,6 @@
 (ns cluwrap.demo.build_dirindex
     (:gen-class) 
-    (:require [clargon.core :as cli])
+    (:require [clojure.tools.cli :as cli])
     (:import 
       [java.io File] 
       [org.apache.lucene.store NIOFSDirectory])
@@ -8,7 +8,8 @@
       [cluwrap.filehelper] 
       [cluwrap.core]  
       [cluwrap.extract]
-      [clojure.tools.logging :as logging ]))
+      [clojure.tools.logging :as logging ]
+      ))
 
 
 (defn add_file_to_index [file_info,index]
@@ -27,18 +28,18 @@
 
 (defn 
   main [args]
-  (let 
-    [ opts 
-      (cli/clargon 
-        args 
-        (cli/required ["--dir" "where to look for files to be indexed" ])
-        (cli/required ["--index-dir" "where to store the index on disk" ])
-        (cli/optional ["--regex" "regex to match to be indexed files" :default ".*"]) 
-        (cli/optional ["--analyzer-proxy" "load a proxied analyzer from a file"])
-        )  
-      config (atom {})
-      source_dir (get_canonical_dir_or_throw (opts :dir))]
-
+  
+  (let [ 
+        opts (first (cli/cli
+               args 
+               ["--dir" "where to look for files to be indexed" ]
+               ["--index-dir" "where to store the index on disk" ]
+               ["--regex" "regex to match to be indexed files" :default ".*"]
+               ["--analyzer-proxy" "load a proxied analyzer from a file"]
+               ))  
+        config (atom {})
+        source_dir (get_canonical_dir_or_throw (opts :dir))
+        ]
 
     (logging/info (str "input options: " opts))
 
@@ -59,9 +60,9 @@
     (walkdir source_dir
              (re-pattern(opts :regex))        
              (fn [h]
-                 (if (:is_file? h) 
-                   (add_file_to_index h index)
-                   )))
+               (if (:is_file? h) 
+                 (add_file_to_index h index)
+                 )))
 
     ;; optimize and close
     ((:optimize index))

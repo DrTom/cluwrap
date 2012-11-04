@@ -1,6 +1,6 @@
 (ns cluwrap.demo.filequery_demo
     (:gen-class) 
-    (:require [clargon.core :as cli])
+    (:require [clojure.tools.cli :as cli])
     (:import 
       [java.io File] 
       [org.apache.lucene.index IndexReader] 
@@ -29,15 +29,14 @@
 (defn 
   main [args]
   (let 
-    [ opts 
-      (cli/clargon 
+    [ opts (first (cli/cli
         args 
-        (cli/required ["--dir" "where to look for files to be indexed" ])
-        (cli/optional ["--regex" "regex to match to be indexed files" :default ".*"]) 
-        (cli/optional ["--query" "the query"] )
-        (cli/optional ["--list-tokens"])
-        (cli/optional ["--analyzer-proxy" "load a proxied analyzer from a file"])
-        )  
+        ["--dir" "where to look for files to be indexed" ]
+        ["--regex" "regex to match to be indexed files" :default ".*"]
+        ["--query" "the query"]
+        ["--list-tokens"]
+        ["--analyzer-proxy" "load a proxied analyzer from a file"]
+        ))  
       config (atom {})
       dir (get_canonical_dir_or_throw (opts :dir))]
 

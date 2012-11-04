@@ -1,6 +1,6 @@
 (ns cluwrap.demo.analyzer_demo
     (:gen-class)
-    (:require [clargon.core :as cli])
+    (:require [clojure.tools.cli :as cli])
     (:import 
      (java.io BufferedReader Reader File) 
      (org.apache.lucene.index IndexReader) 
@@ -10,8 +10,8 @@
     (:use 
      [cluwrap.filehelper] 
      [cluwrap.core] 
-     [cluwrap.analysis] 
-     [clojure.contrib.str-utils]
+     [cluwrap.demo.analysis] 
+;     [clojure.contrib.str-utils]
      ))
 
 

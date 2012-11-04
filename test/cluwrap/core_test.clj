@@ -2,7 +2,6 @@
     (use 
       [cluwrap.core]
       [clojure.test] 
-      [cljgiven.core]
       ) 
     (import
       [org.apache.lucene.index IndexWriter IndexWriterConfig]

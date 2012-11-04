@@ -1,6 +1,6 @@
 (ns cluwrap.demo.tika_demo
     (:gen-class)
-    (:require [clargon.core :as cli])
+    (:require [clojure.tools.cli :as cli])
     (:import 
      (java.io File FileInputStream) 
      (org.apache.tika.parser Parser AutoDetectParser ParseContext)
@@ -51,11 +51,10 @@
 
 
   (let 
-    [ opts 
-      (cli/clargon 
+    [ opts (first (cli/cli
         args 
-        (cli/optional ["--list-supported-types" "show all supported mimetypes" ])
-        (cli/optional ["--parse-file" "read a file"]))]
+        ["--list-supported-types" "show all supported mimetypes" ]
+        ["--parse-file" "read a file"]))]
 
       (if (:list-supported-types opts)  
          (doseq [supported_type (.getSupportedTypes (AutoDetectParser.) (ParseContext.))]

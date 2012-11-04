@@ -18,8 +18,8 @@
     (doseq [file (-> canonical_start_dir File. file-seq)]
       (if (re-matches pattern (.getCanonicalPath file))
         (fun {:canonical_path (.getCanonicalPath file) 
-              :relative_path ( .substring ( -> file .getCanonicalPath) (.length canonical_start_dir) )
-              :is_file? (.isFile file)
-              })))
+          :relative_path ( .substring ( -> file .getCanonicalPath) (.length canonical_start_dir) )
+          :is_file? (.isFile file)
+          })))
     ))
 

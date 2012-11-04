@@ -1,6 +1,6 @@
 (ns cluwrap.demo.query_index
     (:gen-class) 
-    (:require [clargon.core :as cli])
+    (:require [clojure.tools.cli :as cli])
     (:import 
       [java.io File] 
       [org.apache.lucene.store NIOFSDirectory])
@@ -14,12 +14,11 @@
 (defn 
   main [args]
   (let 
-    [ opts 
-      (cli/clargon 
+    [ opts (first (cli/cli
         args 
-        (cli/required ["--index-dir" "location of the index to bequeried" ])
-        (cli/required ["--query" "the query"] )
-        (cli/optional ["--analyzer-proxy" "load a proxied analyzer from a file"]))  
+        ["--index-dir" "location of the index to bequeried" ]
+        ["--query" "the query"] 
+        ["--analyzer-proxy" "load a proxied analyzer from a file"]))
 
       config (atom {}) ]
 
